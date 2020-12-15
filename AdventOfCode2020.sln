@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode2020.Day02", "src\AdventOfCode2020.Day02\AdventOfCode2020.Day02.csproj", "{E26247B1-F07C-471A-A1C2-D5C558C4313B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{99F0ACB2-EE91-44D4-A943-482706F9F48F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99F0ACB2-EE91-44D4-A943-482706F9F48F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99F0ACB2-EE91-44D4-A943-482706F9F48F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E26247B1-F07C-471A-A1C2-D5C558C4313B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E26247B1-F07C-471A-A1C2-D5C558C4313B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E26247B1-F07C-471A-A1C2-D5C558C4313B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E26247B1-F07C-471A-A1C2-D5C558C4313B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
