@@ -1,18 +1,32 @@
 ﻿using System;
 using System.IO;
 
+using AdventOfCode2020.Day03;
+
 var geo = await File.ReadAllLinesAsync("input.txt");
 
-var (x, trees) = (0, 0);
+var solution1 = TreeUtil.Trees(geo);
 
-for (var y = 1; y < geo.Length; y++)
+Console.WriteLine($"Day 3 - Puzzle 1: {solution1}");
+
+var slopes = new int[][]
 {
-    x = ( x + 3 ) % geo[y].Length;
+    new int[] { 1, 1 },
+    new int[] { 3, 1 },
+    new int[] { 5, 1 },
+    new int[] { 7, 1 },
+    new int[] { 1, 2 },
+};
 
-    if (geo[y][x] == '#')
-    {
-        trees++;
-    }
+var solution2 = 1L;
+
+for (var i = 0; i < slopes.Length; i++)
+{
+    var trees = TreeUtil.Trees(geo, slopes[i][0], slopes[i][1]);
+
+    Console.WriteLine($"{slopes[i][0]} right, {slopes[i][1]} down: {trees}");
+
+    solution2 *= trees;
 }
 
-Console.WriteLine($"Day 3 - Puzzle 1: {trees}");
+Console.WriteLine($"Day 3 - Puzzle 2: {solution2}");
