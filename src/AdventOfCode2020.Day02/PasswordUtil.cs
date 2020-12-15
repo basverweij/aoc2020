@@ -13,6 +13,24 @@ namespace AdventOfCode2020.Day02
         public static bool IsValid(
             string line)
         {
+            ParseLine(line, out var min, out var max, out var letter, out var password);
+
+            var count = password.Count(c => c == letter);
+
+            return count >= min && count <= max;
+        }
+
+        public static bool IsValid2(
+            string line)
+        {
+            ParseLine(line, out var min, out var max, out var letter, out var password);
+
+            return password[min - 1] == letter ^ password[max - 1] == letter;
+        }
+
+        #region Helpers
+        private static void ParseLine(string line, out int min, out int max, out char letter, out string password)
+        {
             var match = _passwordPattern.Match(line);
 
             if (!match.Success)
@@ -20,17 +38,15 @@ namespace AdventOfCode2020.Day02
                 throw new InvalidOperationException($"invalid password: {line}");
             }
 
-            var min = int.Parse(match.Groups[1].Value);
+            min = int.Parse(match.Groups[1].Value);
 
-            var max = int.Parse(match.Groups[2].Value);
+            max = int.Parse(match.Groups[2].Value);
 
-            var letter = match.Groups[3].Value[0];
+            letter = match.Groups[3].Value[0];
 
-            var password = match.Groups[4].Value;
-
-            var count = password.Count(c => c == letter);
-
-            return count >= min && count <= max;
+            password = match.Groups[4].Value;
         }
+
+        #endregion
     }
 }
