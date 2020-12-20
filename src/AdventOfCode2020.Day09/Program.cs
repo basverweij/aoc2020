@@ -9,7 +9,7 @@ var lines = await File.ReadAllLinesAsync("input.txt");
 
 var preamble = lines.Take(25).Select(long.Parse).ToArray();
 
-var numbers = lines.Skip(25).Select(long.Parse).ToArray();
+var numbers = lines.Select(long.Parse).ToArray();
 
 var window = new Queue<long>(preamble);
 
@@ -17,7 +17,7 @@ var sorted = new SortedSet<long>(preamble);
 
 var solution1 = 0L;
 
-foreach (var number in numbers)
+foreach (var number in numbers.Skip(25))
 {
     // check whether number is valid
 
@@ -38,3 +38,7 @@ foreach (var number in numbers)
 }
 
 Console.WriteLine($"Day 9 - Puzzle 1: {solution1}");
+
+var solution2 = numbers.EncryptionWeakness(solution1);
+
+Console.WriteLine($"Day 9 - Puzzle 2: {solution2}");
