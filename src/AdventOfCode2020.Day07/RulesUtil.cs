@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AdventOfCode2020.Day07
@@ -41,6 +42,19 @@ namespace AdventOfCode2020.Day07
                 .ToArray();
 
             return (parts[0], contains);
+        }
+
+        public static int GetContainingCountForColor(
+            this IReadOnlyDictionary<string, (string color, int count)[]> @this,
+            string color)
+        {
+            if (!@this.TryGetValue(color, out var contains) ||
+                contains.Length == 0)
+            {
+                return 1;
+            }
+
+            return 1 + contains.Sum(c => c.count * @this.GetContainingCountForColor(c.color));
         }
     }
 }

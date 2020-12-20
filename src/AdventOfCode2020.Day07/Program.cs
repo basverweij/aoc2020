@@ -55,3 +55,9 @@ while (todo.Any())
 var solution1 = canContainShinyGold.Count;
 
 Console.WriteLine($"Day 7 - Puzzle 1: {solution1}");
+
+var containing = rules.ToDictionary(r => r.color, r => r.contains);
+
+var solution2 = containing.GetContainingCountForColor("shiny gold") - 1; // exclude the outer-most bag
+
+Console.WriteLine($"Day 7 - Puzzle 2: {solution2}"); // FIXME 21214 is too low, 30900 is too high
