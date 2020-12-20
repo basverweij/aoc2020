@@ -28,6 +28,10 @@ foreach (var line in lines)
 
 passports.Add(passport.ToString().Trim());
 
-var solution1 = passports.Count(PassportUtil.IsValid);
+var solution1 = passports.Count(p => PassportUtil.IsValid(p, false));
 
 Console.WriteLine($"Day 4 - Puzzle 1: {solution1}");
+
+var solution2 = passports.Count(p => PassportUtil.IsValid(p, true));
+
+Console.WriteLine($"Day 4 - Puzzle 2: {solution2}");
