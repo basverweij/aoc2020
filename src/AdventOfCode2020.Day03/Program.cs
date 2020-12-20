@@ -24,8 +24,6 @@ for (var i = 0; i < slopes.Length; i++)
 {
     var trees = TreeUtil.Trees(geo, slopes[i][0], slopes[i][1]);
 
-    Console.WriteLine($"{slopes[i][0]} right, {slopes[i][1]} down: {trees}");
-
     solution2 *= trees;
 }
 
