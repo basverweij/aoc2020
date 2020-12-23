@@ -20,17 +20,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode2020.Day04", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode2020.Day05", "src\AdventOfCode2020.Day05\AdventOfCode2020.Day05.csproj", "{FDF3420D-8B98-4217-998F-DFDE6087FCE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode2020.Day06", "src\AdventOfCode2020.Day06\AdventOfCode2020.Day06.csproj", "{F7F0329A-7BE6-43EB-B3DD-6EBA2680552C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode2020.Day06", "src\AdventOfCode2020.Day06\AdventOfCode2020.Day06.csproj", "{F7F0329A-7BE6-43EB-B3DD-6EBA2680552C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode2020.Day07", "src\AdventOfCode2020.Day07\AdventOfCode2020.Day07.csproj", "{4CDC52ED-3923-436D-B06B-25C51C9F5A77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode2020.Day07", "src\AdventOfCode2020.Day07\AdventOfCode2020.Day07.csproj", "{4CDC52ED-3923-436D-B06B-25C51C9F5A77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode2020.Day07.Tests", "test\AdventOfCode2020.Day07.Tests\AdventOfCode2020.Day07.Tests.csproj", "{FB4C5E37-39C8-4E75-B87F-037CEC25FF5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode2020.Day07.Tests", "test\AdventOfCode2020.Day07.Tests\AdventOfCode2020.Day07.Tests.csproj", "{FB4C5E37-39C8-4E75-B87F-037CEC25FF5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode2020.Day08", "src\AdventOfCode2020.Day08\AdventOfCode2020.Day08.csproj", "{4F5D3533-EC86-43DA-B54A-805F24E77C81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode2020.Day08", "src\AdventOfCode2020.Day08\AdventOfCode2020.Day08.csproj", "{4F5D3533-EC86-43DA-B54A-805F24E77C81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode2020.Day09", "src\AdventOfCode2020.Day09\AdventOfCode2020.Day09.csproj", "{C9A6B8F7-1D35-4446-AACD-094686BF2F47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode2020.Day09", "src\AdventOfCode2020.Day09\AdventOfCode2020.Day09.csproj", "{C9A6B8F7-1D35-4446-AACD-094686BF2F47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode2020.Day10", "src\AdventOfCode2020.Day10\AdventOfCode2020.Day10.csproj", "{60E106B1-2047-48D1-A9DF-71BA6DA0DC63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode2020.Day10", "src\AdventOfCode2020.Day10\AdventOfCode2020.Day10.csproj", "{60E106B1-2047-48D1-A9DF-71BA6DA0DC63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
