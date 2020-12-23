@@ -24,6 +24,19 @@ while (current.ApplyRules(next) > 0)
     (current, next) = (next, current);
 }
 
-var solution1 = current.GetOccupied();
+var solution1 = current.OccupiedCount();
 
 Console.WriteLine($"Day 11 - Puzzle 1: {solution1}");
+
+current = lines.Select(s => s.ToCharArray()).ToArray();
+
+next = lines.Select(s => s.ToCharArray()).ToArray();
+
+while (current.ApplyRules2(next) > 0)
+{
+    (current, next) = (next, current);
+}
+
+var solution2 = current.OccupiedCount();
+
+Console.WriteLine($"Day 11 - Puzzle 2: {solution2}");
