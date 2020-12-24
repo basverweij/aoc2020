@@ -20,3 +20,16 @@ foreach (var instruction in instructions)
 var solution1 = Math.Abs(x) + Math.Abs(y);
 
 Console.WriteLine($"Day 12 - Puzzle 1: {solution1}");
+
+(x, y) = (0, 0);
+
+var (waypointX, waypointY) = (10, -1); // 10 E, 1 N
+
+foreach (var instruction in instructions)
+{
+    instruction.ApplyWithWaypoint(ref x, ref y, ref waypointX, ref waypointY);
+}
+
+var solution2 = Math.Abs(x) + Math.Abs(y);
+
+Console.WriteLine($"Day 12 - Puzzle 2: {solution2}");
