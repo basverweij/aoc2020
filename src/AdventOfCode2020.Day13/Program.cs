@@ -2,6 +2,8 @@
 using System.IO;
 using System.Linq;
 
+using AdventOfCode2020.Day13;
+
 var lines = await File.ReadAllLinesAsync("input.txt");
 
 var timestamp = int.Parse(lines[0]);
@@ -26,3 +28,14 @@ for (var t = timestamp; solution1 == 0; t++)
 }
 
 Console.WriteLine($"Day 13 - Puzzle 1: {solution1}");
+
+var idsWithIndex = lines[1]
+    .Split(',')
+    .Select((s, i) => (s, i))
+    .Where(id => id.s != "x")
+    .Select(id => (id: int.Parse(id.s), index: id.i))
+    .ToArray();
+
+var solution2 = EuclidUtil.Solution2(idsWithIndex);
+
+Console.WriteLine($"Day 13 - Puzzle 2: {solution2}");
