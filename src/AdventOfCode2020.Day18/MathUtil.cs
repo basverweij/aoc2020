@@ -6,7 +6,8 @@ namespace AdventOfCode2020.Day18
     public static class MathUtil
     {
         public static long Evaluate(
-            string expression)
+            string expression,
+            bool advancedPrecedence)
         {
             var members = expression
                 .ToCharArray()
@@ -37,16 +38,25 @@ namespace AdventOfCode2020.Day18
 
                 // evaluate nested expressions first
 
-                var value = EvaluateSimple(members[( openingIndex + 1 )..closingIndex]);
+                var value = Evaluate(
+                    members[( openingIndex + 1 )..closingIndex],
+                    advancedPrecedence);
 
-                members[openingIndex] = value.ToString();
-
-                Array.Copy(members, closingIndex + 1, members, openingIndex + 1, members.Length - closingIndex - 1);
-
-                Array.Resize(ref members, members.Length - ( closingIndex - openingIndex ));
+                Replace(ref members, openingIndex, closingIndex + 1, value.ToString());
             }
 
-            return EvaluateSimple(members);
+            return Evaluate(
+                members,
+                advancedPrecedence);
+        }
+
+        private static long Evaluate(
+            string[] members,
+            bool advancedPrecedence)
+        {
+            return advancedPrecedence ?
+                EvaluateAdvanced(members) :
+                EvaluateSimple(members);
         }
 
         private static long EvaluateSimple(
@@ -54,7 +64,7 @@ namespace AdventOfCode2020.Day18
         {
             var value = long.Parse(members[0]);
 
-            for (var i = 1; i < members.Length; i += 2)
+            for (var i = 1; i < members.Length - 1; i += 2)
             {
                 var rhs = long.Parse(members[i + 1]);
 
@@ -70,6 +80,56 @@ namespace AdventOfCode2020.Day18
             }
 
             return value;
+        }
+
+        private static long EvaluateAdvanced(
+            string[] members)
+        {
+            // pass 1 - addition
+
+            for (var i = 1; i < members.Length - 1;)
+            {
+                if (members[i] == "+")
+                {
+                    checked
+                    {
+                        var value = long.Parse(members[i - 1]) + long.Parse(members[i + 1]);
+
+                        Replace(ref members, i - 1, i + 2, value.ToString());
+                    }
+                }
+                else
+                {
+                    i += 2;
+                }
+            }
+
+            // pass 2 - multiplication
+
+            var result = 1L;
+
+            for (var i = 0; i < members.Length; i += 2)
+            {
+                checked
+                {
+                    result *= long.Parse(members[i]);
+                }
+            }
+
+            return result;
+        }
+
+        private static void Replace<T>(
+            ref T[] array,
+            int fromInclusive,
+            int toExclusive,
+            T with)
+        {
+            array[fromInclusive] = with;
+
+            Array.Copy(array, toExclusive, array, fromInclusive + 1, array.Length - toExclusive);
+
+            Array.Resize(ref array, array.Length - ( toExclusive - fromInclusive - 1 ));
         }
     }
 }
