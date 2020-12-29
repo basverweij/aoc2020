@@ -28,6 +28,8 @@ for (; !string.IsNullOrEmpty(lines[i]); i++)
     }
 }
 
+var messages = lines[i..];
+
 while (todo.Any())
 {
     foreach (var (id, rule) in todo.ToArray())
@@ -53,8 +55,16 @@ while (todo.Any())
 
 var rule0 = new Regex($"^{rules[0]}$", RegexOptions.Compiled | RegexOptions.Singleline);
 
-var messages = lines[i..];
-
 var solution1 = messages.Count(rule0.IsMatch);
 
 Console.WriteLine($"Day 19 - Puzzle 1: {solution1}");
+
+// rule 8 is an at-least-once repeat of rule 42
+
+// rule 11 is a symmetric match of rules 42 and 31, see https://docs.microsoft.com/en-us/dotnet/standard/base-types/grouping-constructs-in-regular-expressions#balancing-group-definitions
+
+rule0 = new Regex($"^({rules[42]})+(((?'Rule42'{rules[42]})+(?'Rule31-Rule42'{rules[31]})+)+(?(Rule42)(?!)))$", RegexOptions.Compiled | RegexOptions.Singleline);
+
+var solution2 = messages.Count(rule0.IsMatch);
+
+Console.WriteLine($"Day 19 - Puzzle 2: {solution2}");
