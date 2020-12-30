@@ -5,46 +5,137 @@ using System.Linq;
 namespace AdventOfCode2020.Day20
 {
     [DebuggerDisplay("Top = {Borders[0]}, Right = {Borders[1]}, Bottom = {Borders[2]}, Left = {Borders[3]}")]
-    public record TileOption(int[] Borders);
+    public record TileOption(int Id, int[] Borders, char[][] Tile);
 
     public static class TilesUtil
     {
         public static TileOption[] BuildOptions(
-            this string[] @this)
+            this char[][] @this,
+            int id)
         {
-            // rotated 0, 90, 180, 270 degrees x original, flipped = 8 options
-
             var options = new TileOption[8];
 
-            for (var f = 0; f < 2; f++) // flip
+            for (var flipped = 0; flipped < 2; flipped++)
             {
-                var borders = new int[4];
-
-                for (var i = 0; i < 4; i++)
+                for (var rotated = 0; rotated < 4; rotated++)
                 {
-                    borders[i] = @this.GetBorder(i, f == 1);
-                }
+                    var permutation = @this.Permutate(flipped == 1, rotated);
 
-                for (var i = 0; i < 4; i++) // rotate
-                {
-                    var optionBorders = new int[4];
+                    var borders = Enumerable.Range(0, 4).Select(permutation.GetBorder).ToArray();
 
-                    for (var j = 0; j < 4; j++)
-                    {
-                        optionBorders[j] = borders[( i + j ) % 4];
-                    }
-
-                    options[4 * f + i] = new(optionBorders);
+                    options[flipped * 4 + rotated] = new(
+                        id,
+                        borders,
+                        permutation);
                 }
             }
 
             return options;
         }
 
+        #region Helpers
+
+        public static char[][] Permutate(
+            this char[][] @this,
+            bool flipped,
+            int rotated)
+        {
+            var n = @this.Length;
+
+            var permutation = flipped switch
+            {
+                // original
+                false => rotated switch
+                {
+                    // 0 degrees
+                    0 => @this,
+
+                    // 90 degrees clock-wise
+                    1 => Enumerable
+                        .Range(0, n)
+                        .Select(
+                            i => Enumerable
+                                .Range(1, n)
+                                .Select(j => @this[n - j][i])
+                                .ToArray())
+                        .ToArray(),
+
+                    // 180 degrees
+                    2 => Enumerable
+                        .Range(1, n)
+                        .Select(
+                            i => Enumerable
+                                .Range(1, n)
+                                .Select(j => @this[n - i][n - j])
+                                .ToArray())
+                        .ToArray(),
+
+                    // 270 degrees clock-wise
+                    3 => Enumerable
+                        .Range(1, n)
+                        .Select(
+                            i => Enumerable
+                                .Range(0, n)
+                                .Select(j => @this[j][n - i])
+                                .ToArray())
+                        .ToArray(),
+
+                    _ => throw new ArgumentException($"invalid value '{rotated}'", nameof(rotated)),
+                },
+
+                // flipped
+                true => rotated switch
+                {
+                    // 0 degrees
+                    0 => Enumerable
+                        .Range(0, n)
+                        .Select(
+                            i => Enumerable
+                                .Range(1, n)
+                                .Select(j => @this[i][n - j])
+                                .ToArray())
+                        .ToArray(),
+
+                    // 90 degrees clock-wise
+                    1 => Enumerable
+                        .Range(1, n)
+                        .Select(
+                            i => Enumerable
+                                .Range(1, n)
+                                .Select(j => @this[n - j][n - i])
+                                .ToArray())
+                        .ToArray(),
+
+                    // 180 degrees
+                    2 => Enumerable
+                        .Range(1, n)
+                        .Select(
+                            i => Enumerable
+                                .Range(0, n)
+                                .Select(j => @this[n - i][j])
+                                .ToArray())
+                        .ToArray(),
+
+                    // 270 degrees clock-wise
+                    3 => Enumerable
+                        .Range(0, n)
+                        .Select(
+                            i => Enumerable
+                                .Range(0, n)
+                                .Select(j => @this[j][i])
+                                .ToArray())
+                        .ToArray(),
+
+                    _ => throw new ArgumentException($"invalid value '{rotated}'", nameof(rotated)),
+                },
+            };
+
+            return permutation;
+        }
+
         private static int GetBorder(
-            this string[] @this,
-            int index,
-            bool flipped)
+            this char[][] @this,
+            int index)
         {
             var border = index switch
             {
@@ -52,27 +143,20 @@ namespace AdventOfCode2020.Day20
                 0 => @this[0],
 
                 // right
-                1 => new string(Enumerable.Range(0, @this.Length).Select(i => @this[i][^1]).ToArray()),
+                1 => Enumerable.Range(0, @this.Length).Select(i => @this[i][^1]).ToArray(),
 
                 // bottom
                 2 => @this[^1],
 
                 // left
-                3 => new string(Enumerable.Range(0, @this.Length).Select(i => @this[i][0]).ToArray()),
+                3 => Enumerable.Range(0, @this.Length).Select(i => @this[i][0]).ToArray(),
 
                 _ => throw new ArgumentException($"invalid index: '{index}'", nameof(index)),
             };
 
-            if (flipped)
-            {
-                var c = border.ToCharArray();
-
-                Array.Reverse(c);
-
-                border = new string(c);
-            }
-
             return Convert.ToInt32(new string(border.Select(c => c == '#' ? '1' : '0').ToArray()), 2);
         }
+
+        #endregion
     }
 }
