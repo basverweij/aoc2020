@@ -33,3 +33,25 @@ var possibleIngredients = options.Values.Aggregate(new HashSet<string>(), (a, b)
 var solution1 = foods.Sum(f => f.ingredients.Count(i => !possibleIngredients.Contains(i)));
 
 Console.WriteLine($"Day 21 - Puzzle 1: {solution1}");
+
+var allergens = new Dictionary<string, string>();
+
+while (options.Any())
+{
+    var singleOption = options.First(o => o.Value.Count == 1);
+
+    var ingredient = singleOption.Value.Single();
+
+    allergens[singleOption.Key] = ingredient;
+
+    options.Remove(singleOption.Key);
+
+    foreach (var option in options)
+    {
+        option.Value.Remove(ingredient);
+    }
+}
+
+var solution2 = string.Join(",", allergens.OrderBy(kvp => kvp.Key).Select(kvp => kvp.Value));
+
+Console.WriteLine($"Day 21 - Puzzle 2: {solution2}");
