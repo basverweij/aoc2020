@@ -100,7 +100,9 @@ namespace AdventOfCode2020.Day23
 
             public Cup Next { get; set; }
 
+#pragma warning disable CS8618
             public Cup(
+#pragma warning restore CS8618
                 int label)
             {
                 Label = label;
