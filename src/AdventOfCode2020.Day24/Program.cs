@@ -28,3 +28,12 @@ foreach (var tileToFlip in tilesToFlip)
 var solution1 = flippedTiles.Count;
 
 Console.WriteLine($"Day 24 - Puzzle 1: {solution1}");
+
+for (var i = 1; i <= 100; i++)
+{
+    flippedTiles = flippedTiles.Flip();
+}
+
+var solution2 = flippedTiles.Count;
+
+Console.WriteLine($"Day 24 - Puzzle 2: {solution2}");
