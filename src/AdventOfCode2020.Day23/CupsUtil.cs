@@ -1,84 +1,110 @@
-﻿using System;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace AdventOfCode2020.Day23
 {
     public static class CupsUtil
     {
-        public static string Play(
+        public static int[] Play(
             string start,
-            int rounds)
+            int rounds,
+            int totalCups = 9)
         {
-            var cups = start.ToCharArray().Select(c => c - '0').ToArray();
+            var cups = new Dictionary<int, Cup>();
 
-            var n = cups.Length;
+            cups[start[0] - '0'] = new Cup(start[0] - '0');
 
-            var move = new int[3];
+            for (var i = 1; i < start.Length; i++)
+            {
+                cups[start[i - 1] - '0'].Next = cups[start[i] - '0'] = new(start[i] - '0');
+            }
 
-            var current = 0;
+            if (start.Length < totalCups)
+            {
+                cups[start[^1] - '0'].Next = cups[start.Length + 1] = new Cup(start.Length + 1);
 
-            for (int i = 0; i < rounds; i++)
+                for (var i = start.Length + 2; i <= totalCups; i++)
+                {
+                    cups[i - 1].Next = cups[i] = new(i);
+                }
+
+                cups[totalCups].Next = cups[start[0] - '0']; // link back to first cup
+            }
+            else
+            {
+                cups[start[^1] - '0'].Next = cups[start[0] - '0']; // link back to first cup
+            }
+
+            Cup move0, move1, move2;
+
+            var current = cups[start[0] - '0'];
+
+            for (var i = 0; i < rounds; i++)
             {
                 // cups to move
 
-                move[0] = cups[( current + 1 ) % n];
+                move0 = current.Next;
 
-                move[1] = cups[( current + 2 ) % n];
+                move1 = move0.Next;
 
-                move[2] = cups[( current + 3 ) % n];
+                move2 = move1.Next;
 
                 // determine destination cup
 
-                var destination = cups[current].NextDestination(n);
+                var destinationLabel = current.Label.NextDestination(totalCups);
 
-                while (( move[0] == destination ) || ( move[1] == destination ) || ( move[2] == destination ))
+                while (( move0.Label == destinationLabel ) || ( move1.Label == destinationLabel ) || ( move2.Label == destinationLabel ))
                 {
-                    destination = destination.NextDestination(n);
+                    destinationLabel = destinationLabel.NextDestination(totalCups);
                 }
+
+                var destination = cups[destinationLabel];
 
                 // exchange cups
 
-                for (var j = 1; j < n; j++)
-                {
-                    cups[( current + j ) % n] = cups[( current + j + 3 ) % n];
+                current.Next = move2.Next;
 
-                    if (cups[( current + j ) % n] == destination)
-                    {
-                        cups[( current + j + 1 ) % n] = move[0];
-
-                        cups[( current + j + 2 ) % n] = move[1];
-
-                        cups[( current + j + 3 ) % n] = move[2];
-
-                        break;
-                    }
-                }
+                (destination.Next, move2.Next) = (move0, destination.Next);
 
                 // update current cup
 
-                current = ( current + 1 ) % n;
+                current = current.Next;
             }
 
-            var result = new char[n - 1];
+            var result = new int[totalCups];
 
-            var index = Array.IndexOf(cups, 1);
-
-            for (var i = 0; i < n - 1; i++)
+            for (var i = 0; i < totalCups; i++)
             {
-                result[i] = (char)( cups[( index + i + 1 ) % n] + '0' );
+                result[i] = current.Label;
+
+                current = current.Next;
             }
 
-            return new string(result);
+            return result;
         }
 
         private static int NextDestination(
             this int @this,
-            int n)
+            int totalCups)
         {
             return
                 @this == 1 ?
-                    n :
+                    totalCups :
                     @this - 1;
+        }
+
+        [DebuggerDisplay("{Label} -> {Next.Label}")]
+        private class Cup
+        {
+            public int Label { get; set; }
+
+            public Cup Next { get; set; }
+
+            public Cup(
+                int label)
+            {
+                Label = label;
+            }
         }
     }
 }
